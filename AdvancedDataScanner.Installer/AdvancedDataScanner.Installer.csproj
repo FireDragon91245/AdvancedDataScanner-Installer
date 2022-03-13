@@ -7,8 +7,5 @@
 
 	<ItemGroup>
 		<PackageReference Include="Octokit" Version="0.50.0" />
-		<Content Include="help.txt">
-			<CopyToPublishDirectory>Always</CopyToPublishDirectory>
-		</Content>
 	</ItemGroup>
 </Project>

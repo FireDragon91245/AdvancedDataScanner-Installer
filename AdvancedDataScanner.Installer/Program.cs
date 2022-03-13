@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -78,10 +77,19 @@ namespace AdvancedDataScannerInstaller
                     }
                     else if (cmd[0].Equals("help", StringComparison.OrdinalIgnoreCase))
                     {
-                        using (StreamReader reader = new StreamReader("./help.txt"))
+                        String[] helptxt =
                         {
-                            Console.WriteLine(reader.ReadToEnd());
-                        }
+                            "Functions:",
+                            "- newest -} Displays newest avaidable version",
+                            "- versions -} Displays all avaidable versions",
+                            "- installnewest -} Downloads the newest version of AdvancedDataScanner",
+                            "- installcustom -} Downloads a custom version if the version is avaidable see 'versions' command",
+                            "- srcnewest -} Downloads the newest source code (source code for the newest AdvancedDataScanner version)",
+                            "- srccustom -} Downloads a custom version of source code for a version of AdvancedDataScanner see 'versions' command",
+                            "- exit -} leave programm",
+                            "- help -} display this"
+                        };
+                        Array.ForEach(helptxt, Console.WriteLine);
                     }
                 }
             }
@@ -92,7 +100,7 @@ namespace AdvancedDataScannerInstaller
             bool connection = true;
             try
             {
-                var response = await client.Repository.Release.GetAll("FireDragon91245", "AdvancedDataScanner");
+                await client.Repository.Release.GetAll("FireDragon91245", "AdvancedDataScanner");
             }
             catch
             {
@@ -167,7 +175,7 @@ namespace AdvancedDataScannerInstaller
                     Uri uri = new Uri(version);
                     webclient.DownloadProgressChanged += DownloadPercentage;
                     webclient.DownloadDataCompleted += DownloadFinish;
-                    webclient.DownloadFileAsync(uri, $"./AdvancedDataScanner {releases.First().TagName}.exe");
+                    webclient.DownloadFileAsync(uri, $"./AdvancedDataScanner {args[1].ToLower()}.exe");
                 }
             }
         }
@@ -211,7 +219,7 @@ namespace AdvancedDataScannerInstaller
                     Uri uri = new Uri(version);
                     webclient.DownloadProgressChanged += DownloadPercentage;
                     webclient.DownloadDataCompleted += DownloadFinish;
-                    webclient.DownloadFileAsync(uri, $"./AdvancedDataScannerSrc {releases.First().TagName}.zip");
+                    webclient.DownloadFileAsync(uri, $"./AdvancedDataScannerSrc {args[1].ToLower()}.zip");
                 }
             }
         }
